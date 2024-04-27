@@ -5,6 +5,7 @@ import delayedTimeOut from "../Utilities/delayedTimeOut";
 export const convertPdf = createAsyncThunk(
   "convert/converPdf",
   async (pdf_file, { rejectWithValue }) => {
+    
     try {
       await delayedTimeOut(1000);
 
@@ -20,11 +21,17 @@ export const convertPdf = createAsyncThunk(
       });
 
       console.log("Data from API:", response.data);
-      return response.data;
+      return response.data.message;
       //return response.data;
+
     } catch (err) {
-        console.error('Error al convertir PDF:', err);
-        return rejectWithValue(`Errors:${err.message}`);
+      console.error('Error al convertir PDF:', err);
+        // Manejar errores de manera más robusta
+      if (err.response && err.response.data && err.response.data.message) {
+        return rejectWithValue(err.response.data.message);
+      } else {
+        return rejectWithValue(err.message);
+      }
     }
   }
 );

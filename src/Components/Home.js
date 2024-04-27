@@ -1,8 +1,22 @@
-import React from 'react'
+import React, { Fragment } from 'react'
+import MetaData from '../Components/Layout/MetaData'
+import { useSelector } from 'react-redux';
+import UploadPdf from './UploadPdf/UploadPdf';
+
 
 const Home = () => {
-  return (
-    <div>home</div>
+    
+  //Estado General
+  const {    
+    error
+  }=useSelector((state)=>state.pdfs);
+  
+  return (    
+    <Fragment>
+      <MetaData titulo={"We are an upload view"}/>
+      {error && <div>Error: {error}</div>}
+      <UploadPdf/>
+    </Fragment>
   );
 }
 
