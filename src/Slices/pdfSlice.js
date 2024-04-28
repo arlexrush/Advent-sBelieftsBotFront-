@@ -4,7 +4,7 @@ import { convertPdf } from "../Actions/pdfAction";
 
 
 export const initialState = {
-    pdfs:null,
+    pdfs:"",
     loading: false,
     error: null,
   };
@@ -25,7 +25,7 @@ export const initialState = {
           state.loading = false;
           state.pdfs = payload;
           state.error = null;
-          console.log("Mensaje recibido del Backend:", payload.data);          
+          console.log("Mensaje recibido del Backend:", payload);          
         })
         .addCase(convertPdf.rejected, (state, action) => {
           state.loading = false;

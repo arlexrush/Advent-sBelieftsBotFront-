@@ -20,7 +20,7 @@ export const convertPdf = createAsyncThunk(
         },
       });
 
-      console.log("Data from API:", response.data);
+      console.log("Data from API:", response.data.message);
       return response.data.message;
       //return response.data;
 
