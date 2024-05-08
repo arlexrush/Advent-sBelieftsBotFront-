@@ -1,4 +1,4 @@
-import React, { Fragment, useState} from "react";
+import React, { Fragment, useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { convertPdf } from "../../Actions/pdfAction";
 import Loading from "../Layout/Loading";
@@ -13,7 +13,10 @@ const UploadPdf = () => {
 
   const { loading, progress } = useSelector((state) => state.pdfs);
   
- 
+  useEffect(() => {
+    // Este efecto se ejecutará cada vez que 'progress' cambie
+    console.log('Progreso actualizado:', progress);
+  }, [progress]);
 
   const handleFileChange = (event) => {
     setPdfFile(event.target.files[0]);
@@ -36,12 +39,16 @@ const UploadPdf = () => {
         />
         <button onClick={handleConvertPdf}>Convertir PDF</button>
       </div>
+      {
+        progress>0?
+      
       <LinearProgress
         color="secondary" // Personalice el color como desee
         variant="determinate" // Para una barra de progreso determinista        
         value={progress} // Establezca el valor de progreso desde el estado
-      />
-      {loading ? <Loading /> : <div></div>}
+      />:<div></div>
+      }
+      {loading&&progress<=0 ? <Loading /> : <div></div>}
     </Fragment>
   );
 };

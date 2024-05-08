@@ -46,7 +46,7 @@ export const convertPdf = createAsyncThunk(
           const handleMessage = (event) => {
             
             const progressDataString = event.data;
-            const progress = (progressDataString/100); 
+            const progress = ((progressDataString/100).toFixed(0))*100; 
             console.log('progressValue:', progress);
             dispatch(setUploadProgress(progress)); // Despachar acción aquí
             console.log('Mensaje recibido del Backend:', event.data);

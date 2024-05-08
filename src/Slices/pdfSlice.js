@@ -7,7 +7,7 @@ export const initialState = {
     pdfs:"",
     loading: false,
     error: null,
-    progress: 0.00
+    progress: null
   };
 
   export const pdfSlice = createSlice({
