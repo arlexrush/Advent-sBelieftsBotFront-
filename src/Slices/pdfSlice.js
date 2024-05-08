@@ -7,14 +7,18 @@ export const initialState = {
     pdfs:"",
     loading: false,
     error: null,
+    progress: 0.00
   };
 
   export const pdfSlice = createSlice({
     name: "pdfs",
     initialState,
     reducers: {
-            
-    },
+      setUploadProgress(state, action) {
+        state.progress = action.payload;
+        console.log('payload:', action.payload);
+        console.log('preogress State:', state.progress);
+    }},
     extraReducers: (builder) => {
       builder
         .addCase(convertPdf.pending, (state) => {
@@ -39,4 +43,5 @@ export const initialState = {
     },
   });
   
+  export const { setUploadProgress } = pdfSlice.actions;
   export const pdfsReducer = pdfSlice.reducer;
