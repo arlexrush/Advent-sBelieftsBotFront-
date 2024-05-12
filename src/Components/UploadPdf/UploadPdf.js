@@ -4,6 +4,7 @@ import { convertPdf } from "../../Actions/pdfAction";
 import Loading from "../Layout/Loading";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Alert from "@material-ui/lab/Alert";
+import { setUploadProgress } from "../../Slices/pdfSlice";
 
 
 const UploadPdf = () => {
@@ -16,21 +17,25 @@ const UploadPdf = () => {
 
   const { loading, progress, error, success } = useSelector((state) => state.pdfs);
 
+  
   useEffect(() => {
     // Este efecto se ejecutará cada vez que 'progress' cambie
     console.log("Progreso actualizado:", progress);
     console.log("Success actualizado:", success);
   
 
-    if (success) {
+    if (progress===100&&pdfFile) {
       setShowAlert(true);
-      setAlertMessage(`The File: ${pdfFile.name} upload successfull`);
+      setAlertMessage(`The File: ${pdfFile.name} has been successfulled Upload`);
     }
    
 
-  }, [progress, success, error, pdfFile]);
+  }, [progress, success, error, pdfFile, loading]);
 
   const handleFileChange = (event) => {
+    setPdfFile(null);
+    setShowAlert(false);
+    dispatch(setUploadProgress(0));
     setPdfFile(event.target.files[0]);
   };
 
@@ -81,12 +86,15 @@ const UploadPdf = () => {
                 value={progress} // Establezca el valor de progreso desde el estado
               />:null
             }
-            {loading && progress <= 0 ? <Loading /> : <div></div>}
-            {showAlert?? (
-              <Alert severity="success" onClose={() => setShowAlert(false)}>
-                {alertMessage}
-              </Alert>
-            )}
+            {loading && progress <= 0 ? <Loading />:<div></div>
+            }     
+            {showAlert?
+              (
+                <Alert severity="success" onClose={() => setShowAlert(false)}>
+                  {alertMessage}
+                </Alert>
+              ):<div></div>
+            }       
           </div>
         </div>
       </div>
