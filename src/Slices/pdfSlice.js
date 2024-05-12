@@ -2,23 +2,27 @@ import { createSlice } from "@reduxjs/toolkit";
 import { convertPdf } from "../Actions/pdfAction";
 
 
-
 export const initialState = {
     pdfs:"",
     loading: false,
     error: null,
-    progress: null
+    progress: 0, 
+    success:false
   };
 
   export const pdfSlice = createSlice({
     name: "pdfs",
     initialState,
     reducers: {
-      setUploadProgress(state, action) {
-        state.progress = action.payload;
+      setUploadProgress(state, action) {        
+        state.progress = action.payload;       
         console.log('payload:', action.payload);
-        console.log('preogress State:', state.progress);
-    }},
+        console.log('progress State:', state.progress);
+    }, setSuccess(state,action){
+        state.success=true;        
+    }
+    
+  },
     extraReducers: (builder) => {
       builder
         .addCase(convertPdf.pending, (state) => {
@@ -43,5 +47,5 @@ export const initialState = {
     },
   });
   
-  export const { setUploadProgress } = pdfSlice.actions;
+  export const { setUploadProgress, setSuccess } = pdfSlice.actions;
   export const pdfsReducer = pdfSlice.reducer;

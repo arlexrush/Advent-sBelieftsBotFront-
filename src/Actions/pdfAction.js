@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../Utilities/axios";
 import delayedTimeOut from "../Utilities/delayedTimeOut";
-import { setUploadProgress } from "../Slices/pdfSlice";
+import {setUploadProgress } from "../Slices/pdfSlice";
 
 
 export const convertPdf = createAsyncThunk(
@@ -42,15 +42,23 @@ export const convertPdf = createAsyncThunk(
         // Crear una promesa para manejar los eventos
         streamData = new Promise((resolve, reject) => {
           let data = 0;
-
+          
           const handleMessage = (event) => {
             
             const progressDataString = event.data;
-            const progress = ((progressDataString/100).toFixed(0))*100; 
+            const progress = ((progressDataString/100))*100; 
             console.log('progressValue:', progress);
-            dispatch(setUploadProgress(progress)); // Despachar acción aquí
+            
+            if (progress>0){              
+              setTimeout(() => {
+                dispatch(setUploadProgress(progress)); // Despachar acción aquí;
+              }, 1000); // Retardo de 3 segundos (3000 milisegundos)
+              clearTimeout();
+            }      
+
             console.log('Mensaje recibido del Backend:', event.data);
-            //data += event.data;
+            
+            data += event.data;
           };
 
           eventSource.addEventListener('message', handleMessage);

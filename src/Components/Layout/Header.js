@@ -18,15 +18,12 @@ const Header = () => {
         <h1>Advent´s Beliefs Bot Project</h1>
  
         <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
-          <button className="btn" id="login_btn">
+          <Link className="btn mr-2 mr-md-4" id="login_btn">
             <i className="fa fa-user-circle"></i> Login
-          </button>
-          <span id="cart" className="ml-3">
-            <i className="fa fa-shopping-cart"></i> Cart
-          </span>
-          <span className="ml-1" id="cart_count">
-            2
-          </span>
+          </Link>
+          <Link to="/register" className="btn btn-primary">
+            <i className="fa fa-user-plus"></i> Register
+          </Link>        
         </div>
       </nav>
     </Fragment>
