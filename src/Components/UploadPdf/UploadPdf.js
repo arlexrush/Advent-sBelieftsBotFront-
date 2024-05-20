@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { convertPdf } from "../../Actions/pdfAction";
+import { convertPdf, downloadPdf } from "../../Actions/pdfAction";
 import Loading from "../Layout/Loading";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Alert from "@material-ui/lab/Alert";
@@ -16,7 +16,7 @@ const UploadPdf = () => {
   //const [progressValue, setProgressValue] = useState(0); // Initialize progress state
 
   const { loading, progress, error, success } = useSelector((state) => state.pdfs);
-
+  
   
   useEffect(() => {
     // Este efecto se ejecutará cada vez que 'progress' cambie
@@ -42,7 +42,15 @@ const UploadPdf = () => {
   const handleConvertPdf = () => {
     if (pdfFile) {
       setShowAlert(false);
-      dispatch(convertPdf(pdfFile)); // No es necesario pasar handleUploadProgress
+      dispatch(convertPdf(pdfFile));
+      const txtFilename = pdfFile.name.replace('.pdf', '.txt');
+      dispatch(downloadPdf(txtFilename));
+      /* dispatch(convertPdf(pdfFile)).then((result) => {
+        if (result.payload) {
+          const txtFilename = pdfFile.name.replace('.pdf', '.txt');
+          dispatch(downloadPdf(txtFilename));
+        }
+      }); */ // No es necesario pasar handleUploadProgress      
       setPdfFile(pdfFile);
     }
   };

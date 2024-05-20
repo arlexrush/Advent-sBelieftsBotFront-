@@ -108,3 +108,34 @@ export const convertPdf = createAsyncThunk(
     }
   }
 );
+
+export const downloadPdf=createAsyncThunk(
+  "convert/download",
+  async(pdf_filename, {rejectWithValue}) => {
+      
+    if(typeof pdf_filename === 'string'){
+
+      try{
+        
+        await delayedTimeOut(1000);
+        
+        const response = await axios.get(`/download?filename=${pdf_filename}`,
+          {responseType: 'blob'}, // Establecer el tipo de respuesta como 'blob'
+        );
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', pdf_filename);
+        document.body.appendChild(link);
+        link.click();
+
+        console.log("Data from API_download:", response.data);
+        //return response;
+        //return response.data;
+      }catch(err){
+        return rejectWithValue(`Errors:${err.message}`);
+      }
+    }
+      
+  }
+);
