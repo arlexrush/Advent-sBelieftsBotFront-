@@ -111,23 +111,39 @@ export const convertPdf = createAsyncThunk(
 
 export const downloadPdf=createAsyncThunk(
   "convert/download",
-  async(pdf_filename, {rejectWithValue}) => {
+  async(filename, {rejectWithValue}) => {
       
-    if(typeof pdf_filename === 'string'){
+    if(typeof filename === 'string'){
 
       try{
         
         await delayedTimeOut(1000);
         
-        const response = await axios.get(`/download?filename=${pdf_filename}`,
+        const response = await axios.get(`/download?filename=${filename}`,
           {responseType: 'blob'}, // Establecer el tipo de respuesta como 'blob'
         );
-        const url = window.URL.createObjectURL(new Blob([response.data]));
+        //const url = window.URL.createObjectURL(new Blob([response.data]));
+        const url = window.URL.createObjectURL(response.data);
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', pdf_filename);
-        document.body.appendChild(link);
-        link.click();
+        link.setAttribute('download', filename);
+        
+        // Utilizar la API download
+        if (window.navigator.msSaveBlob) {
+          // Internet Explorer
+          window.navigator.msSaveBlob(response.data, filename);
+        } else {
+          // Otros navegadores
+          const downloadLink = document.createElement('a');
+          downloadLink.href = url;
+          downloadLink.download = filename;
+          document.body.appendChild(downloadLink);
+          downloadLink.click();
+          document.body.removeChild(downloadLink);
+        }
+        window.URL.revokeObjectURL(url);
+        
+        console.log("url", url);
 
         console.log("Data from API_download:", response.data);
         //return response;

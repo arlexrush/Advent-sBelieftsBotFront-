@@ -1,11 +1,11 @@
 import "./App.css";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Home from "./Components/Home";
 import Header from "./Components/Layout/Header";
 import Footer from "./Components/Layout/Footer";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { convertPdf } from "./Actions/pdfAction";
+import Home from "./Components/home";
 
 function App() {
   const dispatch=useDispatch();
