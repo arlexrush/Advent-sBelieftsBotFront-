@@ -12,6 +12,8 @@ const UploadPdf = () => {
   const [pdfFile, setPdfFile] = useState(null);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+  const [afterLoadingUpload, setafterLoadingUpload]=useState(false);
+  const [internalProgress, setInternalPregress]=useState(false);
   
   //const [progressValue, setProgressValue] = useState(0); // Initialize progress state
 
@@ -23,13 +25,28 @@ const UploadPdf = () => {
     console.log("Progreso actualizado:", progress);
     console.log("Success actualizado:", success);
   
+   
 
-    if (progress===100&&pdfFile) {
+    if (progress===100) {
       setShowAlert(true);
       setAlertMessage(`The File: ${pdfFile.name} has been successfulled Upload`);
     }
-   
+    
 
+    if(loading){
+      if(progress<100&&progress>0){
+        setafterLoadingUpload(true);
+      }else{
+        setafterLoadingUpload(false);
+      }      
+    }   
+
+
+    if(progress>0&&progress<100){
+      setInternalPregress(true);
+    }else{
+      setInternalPregress(false);
+    }
   }, [progress, success, error, pdfFile, loading]);
 
   const handleFileChange = (event) => {
@@ -41,8 +58,9 @@ const UploadPdf = () => {
 
   const handleConvertPdf = () => {
     if (pdfFile) {
+      setafterLoadingUpload(true);
       setShowAlert(false);
-      dispatch(convertPdf(pdfFile));
+      dispatch(convertPdf(pdfFile));      
       const txtFilename = pdfFile.name.replace('.pdf', '.txt');
       dispatch(downloadPdf(txtFilename));
       /* dispatch(convertPdf(pdfFile)).then((result) => {
@@ -86,7 +104,7 @@ const UploadPdf = () => {
                 </button>
               </div>
             </div>
-            {progress>0?              
+            {internalProgress?              
               <LinearProgress
                 className="mb-3"
                 color="secondary" // Personalice el color como desee
@@ -94,7 +112,7 @@ const UploadPdf = () => {
                 value={progress} // Establezca el valor de progreso desde el estado
               />:null
             }
-            {loading && progress <= 0 ? <Loading />:<div></div>
+            {afterLoadingUpload? <Loading />:<div></div>
             }     
             {showAlert?
               (

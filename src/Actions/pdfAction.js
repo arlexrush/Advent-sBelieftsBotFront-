@@ -19,7 +19,7 @@ export const convertPdf = createAsyncThunk(
       console.log(`pdf: ${typeof pdf_file.name === 'string'}`);
       
 
-      if(typeof pdf_file.name === 'string'){
+      if(typeof pdf_file.name === 'string'&&pdf_file){
 
         // Creando un objeto FormData para enviar el archivo PDF
         const formData = new FormData();

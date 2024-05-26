@@ -5,7 +5,7 @@ import Footer from "./Components/Layout/Footer";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { convertPdf } from "./Actions/pdfAction";
-import Home from "./Components/home";
+import Home from "./Components/Home";
 
 function App() {
   const dispatch=useDispatch();
