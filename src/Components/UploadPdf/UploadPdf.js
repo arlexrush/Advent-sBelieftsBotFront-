@@ -14,6 +14,7 @@ const UploadPdf = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const [afterLoadingUpload, setafterLoadingUpload]=useState(false);
   const [internalProgress, setInternalPregress]=useState(false);
+  const [reloadFile, setReloadFile]=useState(false);
   
   //const [progressValue, setProgressValue] = useState(0); // Initialize progress state
 
@@ -30,6 +31,8 @@ const UploadPdf = () => {
     if (progress===100) {
       setShowAlert(true);
       setAlertMessage(`The File: ${pdfFile.name} has been successfulled Upload`);
+      setReloadFile(true);
+      
     }
     
 
@@ -47,13 +50,31 @@ const UploadPdf = () => {
     }else{
       setInternalPregress(false);
     }
-  }, [progress, success, error, pdfFile, loading]);
+
+
+    if(reloadFile){
+      setafterLoadingUpload(true);
+      setShowAlert(false);
+      dispatch(convertPdf(pdfFile));      
+      const txtFilename = pdfFile.name.replace('.pdf', '.txt');
+      if(progress>=100){
+        dispatch(downloadPdf(txtFilename));
+      /* dispatch(convertPdf(pdfFile)).then((result) => {
+        if (result.payload) {
+          const txtFilename = pdfFile.name.replace('.pdf', '.txt');
+          dispatch(downloadPdf(txtFilename));
+        }
+      }); */ // No es necesario pasar handleUploadProgress    
+        setPdfFile(pdfFile); 
+      }
+    }
+  }, [dispatch, progress, success, error, pdfFile, loading, reloadFile]);
 
   const handleFileChange = (event) => {
-    setPdfFile(null);
-    setShowAlert(false);
+    setPdfFile(null);    
     dispatch(setUploadProgress(0));
     setPdfFile(event.target.files[0]);
+    setShowAlert(false);
   };
 
   const handleConvertPdf = () => {
@@ -62,14 +83,19 @@ const UploadPdf = () => {
       setShowAlert(false);
       dispatch(convertPdf(pdfFile));      
       const txtFilename = pdfFile.name.replace('.pdf', '.txt');
-      dispatch(downloadPdf(txtFilename));
+      if(progress>=100){
+        dispatch(downloadPdf(txtFilename));
       /* dispatch(convertPdf(pdfFile)).then((result) => {
         if (result.payload) {
           const txtFilename = pdfFile.name.replace('.pdf', '.txt');
           dispatch(downloadPdf(txtFilename));
         }
-      }); */ // No es necesario pasar handleUploadProgress      
-      setPdfFile(pdfFile);
+      }); */ // No es necesario pasar handleUploadProgress    
+        setPdfFile(pdfFile); 
+      }else{
+        setReloadFile(true);
+      }      
+      
     }
   };
 
