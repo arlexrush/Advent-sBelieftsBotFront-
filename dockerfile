@@ -1,4 +1,4 @@
-#docker build -t pdfconverterfront .
+#docker build -t arlexrush/pdfconverterfront:1.0 .
 #docker run -p 3000:80 pdfconverterfront
 #docker exec -it quirky_kowalevski sh
 
