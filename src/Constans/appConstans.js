@@ -2,7 +2,7 @@
 // If we have a server in heroku, we can do:
 const prod={
     url:{
-        API_URL:'https://myapp.herokuapp.com'
+        API_URL:'http://localhost:5000'
     }
 }
 

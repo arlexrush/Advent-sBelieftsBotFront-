@@ -10,7 +10,7 @@ const Header = () => {
         <div className="col-12 col-md-3">
           <div className="navbar-brand" to={`/`}>            
             <Link  className="btn btn-block" to={`/`}>
-              <img src="/images/LogoIgnakee.png" className="logo" alt="Logo"/>
+              <img src="../LogoIgnakee.png" className="logo" alt="Logo"/>
             </Link>
           </div>
         </div>

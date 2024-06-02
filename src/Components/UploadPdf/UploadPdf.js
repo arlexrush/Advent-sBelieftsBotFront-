@@ -35,12 +35,9 @@ const UploadPdf = () => {
       setReloadFile(true);
     }
 
-    if (loading) {
-      if (progress < 100 && progress > 0) {
-        setafterLoadingUpload(true);
-      } else {
-        setafterLoadingUpload(false);
-      }
+    if (loading && progress>0) {
+      setafterLoadingUpload(false);
+      
     }
 
     if (progress > 0 && progress < 100) {
