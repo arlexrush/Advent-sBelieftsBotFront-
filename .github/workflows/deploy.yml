@@ -28,7 +28,7 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: arlexrush/pdfconverterfront:latest
+        tags: arlexrush/pdfconverterfront:2.0
 
     - name: Trigger Deploy on Render
       env:
