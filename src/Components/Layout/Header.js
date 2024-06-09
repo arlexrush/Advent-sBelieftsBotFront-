@@ -15,7 +15,8 @@ const Header = () => {
           </div>
         </div>
 
-        <h1>Conver PDFs to TXT App</h1>
+        <h1>Converter PDFs to TXT files App</h1>
+        <h2>Preprocessing Data for ML and AI Projects</h2>
  
         <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
           <Link className="btn mr-2 mr-md-4" id="login_btn">
